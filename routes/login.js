@@ -3,10 +3,12 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 config = require('../conf/conf.js');
 
-/* GET home page. */
+/* GET login/generateToken */
 router.get('/generateToken', function(req, res, next) {
 
     var authentification = true;
+
+
 
     if(!authentification){
         res.status(401);

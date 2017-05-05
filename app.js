@@ -40,25 +40,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Récupération de la clé publique du serveur
 var publicKey = fs.readFileSync('/home/vagrant/.ssh/public_key.pem');
 
-//Initialisation d'expressJWT en lui indiquant de vérifier le JWT Token dans le header
-//de CHAQUE requete HTTP avec la clé publique en paramètre
-//afin de vérifier si elle a été générée par la clé privée du serveur
-//N.B : on exclue le path '/login/generateToken' de la vérification du JWT.
-app.use(expressJwt({ secret: publicKey }).unless({ path: [ '/login/generateToken' ]}));
-
 
 //Initialisation du path des routes
 app.use('/', index);
 app.use('/login', login);
-app.use('/companies', companies);
 
+//Initialisation du path de la route protégée '/companies'
+// En indiquant à expressJWT de vérifier le JWT Token dans le header
+//de CHAQUE requete HTTP avec la clé publique passée en paramètre
+//afin de vérifier si elle a été générée par la clé privée du serveur.
+app.use('/companies', expressJwt({ secret: publicKey }), companies);
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler

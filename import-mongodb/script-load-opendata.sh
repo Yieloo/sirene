@@ -30,13 +30,18 @@ sed -i 's/";"/","/g' opendata-utf8.csv
 echo "Supprime la premiere ligne du csv permettant de preciser a mongoimport un fichier de header"
 sed -i '1d' opendata-utf8.csv
 
+#Supprime l'ancienne base de donnée
+mongo < drop-database.js
+
 #Insertion du csv dans mongodb
 echo "Insertion du fichier csv dans mongodb"
 
 mongoimport -d mydb -c companies --type csv --file opendata-utf8.csv --fieldFile header/headers.csv --columnsHaveTypes
 
-
 #Supprime le fichier encode en utf8
 rm opendata-utf8.csv
+
+#Ajoute les index sur les libellées SIREN et L1_NORMALISEE
+mongo < add-index.js
 
 echo "Insertion dans la base de donnee mongobd terminee !"
