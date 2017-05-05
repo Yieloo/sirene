@@ -5,11 +5,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require("fs");
+var expressJwt = require('express-jwt');
 
 //Chargement des routes
 var index = require('./routes/index');
 var companies = require('./routes/companies');
-
+var login = require('./routes/login');
 
 //Démarre du framework NodeJS EXPRESS
 var app = express();
@@ -20,7 +22,6 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/mydb')
     .then(() =>  console.log('connection succesful'))
 .catch((err) => console.error(err));
-
 
 
 // view engine setup
@@ -35,9 +36,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//Récupération de la clé publique du serveur
+var publicKey = fs.readFileSync('/home/vagrant/.ssh/public_key.pem');
+
+//Initialisation d'expressJWT en lui indiquant de vérifier le JWT Token dans le header
+//de CHAQUE requete HTTP avec la clé publique en paramètre
+//afin de vérifier si elle a été générée par la clé privée du serveur
+//N.B : on exclue le path '/login/generateToken' de la vérification du JWT.
+app.use(expressJwt({ secret: publicKey }).unless({ path: [ '/login/generateToken' ]}));
+
+
 //Initialisation du path des routes
 app.use('/', index);
+app.use('/login', login);
 app.use('/companies', companies);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -58,4 +73,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-

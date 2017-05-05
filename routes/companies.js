@@ -12,6 +12,7 @@ router.get('/id/:id', function(req, res, next) {
     });
 });
 
+
 /* GET /companies/siren/:siren */
 router.get('/siren/:siren', function(req, res, next) {
     Company.find({SIREN: req.params.siren}, function (err, post) {
@@ -49,7 +50,7 @@ router.get('/name/autocomplete/:name', function(req, res, next) {
 
     Company.find({ L1_NORMALISEE: {$regex: '^'+name}}, function (err, post) {
         if (err) return next(err);
-        //res.json(post);
+        res.json(post);
     });
 });
 
