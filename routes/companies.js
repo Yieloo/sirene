@@ -21,6 +21,24 @@ router.get('/siren/:siren', function(req, res, next) {
     });
 });
 
+/* GET /companies/siret/:siret */
+router.get('/siret/:siret', function(req, res, next) {
+  if(req.params.siret.length == 14) {
+      var siretsplit = req.params.siret;
+      siretsplit = siretsplit.split('');
+      var siren = siretsplit[0]+siretsplit[1]+siretsplit[2]+siretsplit[3]+
+          siretsplit[4]+siretsplit[5]+siretsplit[6]+siretsplit[7]+siretsplit[8];
+      var nic = siretsplit[9]+siretsplit[10]+siretsplit[11]+siretsplit[12]+siretsplit[13];
+      Company.find({SIREN: siren, NIC: nic}, function (err, post) {
+          if (err) return next(err);
+          res.json(post);
+      });
+  }
+   else{
+        res.status(400).json({status: 'error', msg: 'Siret mal formé'});
+    }
+});
+
 /* GET /companies/listofsiren */
 router.get('/listofsiren/', function(req, res, next) {
     Company.find({SIREN: {$in: req.query.siren}}, function (err, post) {

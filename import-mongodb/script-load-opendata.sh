@@ -1,10 +1,18 @@
 #Recupere le numero du mois precedent
 MOISPRECEDENT=$(date -d "1 month ago" "+%m")
-echo "recuperation de la base de donnee du ${MOISPRECEDENT} eme mois de l'annee"
 
-#Telecharge la base de donnee en fonction du mois
+#Si le mois precedent est décembre, prendre l'année précédente, sinon prendre l'année courante
+if [ $MOISPRECEDENT == '12' ]
+then
+    ANNEE=$(date -d "1 year ago" +%Y)
+else
+    ANNEE=$(date +%Y)
+fi
+echo "Récupération de la base de donnees du ${MOISPRECEDENT} eme mois de l'année ${ANNEE}"
+
+#Telecharge la base de donnee en fonction du mois et de l'annee
 echo "Telechargement du fichier zip"
-wget http://files.data.gouv.fr/sirene/sirene_2017${MOISPRECEDENT}_L_M.zip
+wget http://files.data.gouv.fr/sirene/sirene_${ANNEE}${MOISPRECEDENT}_L_M.zip
 
 #Decompresse l'archive obtenue
 echo "Decompression du fichier zip"
