@@ -49,8 +49,10 @@ app.use('/login', login);
 // En indiquant à expressJWT de vérifier le JWT Token dans le header
 //de CHAQUE requete HTTP avec la clé publique passée en paramètre
 //afin de vérifier si elle a été générée par la clé privée du serveur.
-app.use('/companies', expressJwt({ secret: publicKey }), companies);
+//app.use('/companies', expressJwt({ secret: publicKey }), companies);
 
+//Sans l'authentification JWT
+app.use('/companies', companies);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

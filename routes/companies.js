@@ -12,7 +12,6 @@ router.get('/id/:id', function(req, res, next) {
     });
 });
 
-
 /* GET /companies/siren/:siren */
 router.get('/siren/:siren', function(req, res, next) {
     Company.find({SIREN: req.params.siren}, function (err, post) {
