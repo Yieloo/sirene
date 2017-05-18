@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ./partials/head %>
+</head>
+<body>
+<% include ./partials/nave %>
+
+<!-- Header -->
+<a name="about"></a>
+<div class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <h1>Utiliser notre API</h1>
+                    <hr class="intro-divider">
+
+                    <h3 id="overview-doctype">
+                        <p>L'API</p>
+                    </h3>
+                    <p>
+                        <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="modal-title" id="exampleModalLabel"><h3>Créer un compte</h3></div>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form class="form-horizontal" method="POST" name="formCreateUser"
+                                          action="/login/createUser" onsubmit="return validateForm21111111111()">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="selectionOfUser" name="name"
+                                                   placeholder="Entrer un nom d'utilisateur" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" id="selectionOfUser" name="mail"
+                                                   placeholder="Entrer une adresse mail" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" id="selectionOfUser"
+                                                   name="password" placeholder="Entrer un mot de passe" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">Créer le compte</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <p align="justify">L'API que nous vous proposons est disponible gratuitement. Elle vous permet
+                        d'obtenir une multitude
+                        d'informations concernant les plus de 10.5 Millions d'entreprises française comme par exemple
+                        des variables d'indentification
+                        (SIREN..), d'adresses, de localisation d'entreprise, d'informations économiques ... Nous nous
+                        basons sur la base Sirene de
+                        l'INSEE pour vous proposer cette API.
+                    </p>
+                    </p>
+
+                    <h3 id="overview-doctype">
+                        <p>Utilisation de l'API</p>
+                    </h3>
+
+                    <p>
+                    <p align="justify">L'API est protégée par des jetons JWT. Pour pouvoir l'utiliser, il faut tout
+                        d'abord se procurer des clés d'API.
+                        Voici comment procéder :
+                        <ul>
+                            <h4>
+                                <li>Créer un compte très rapidement pour se procuréer ses clés d'API.
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#myModal">
+                                        Créer un compte
+                                    </button>
+                                </li>
+                                <br/>
+                            </h4>
+
+
+                            <h4>
+                                <li>Générer un token JWT avec ses clés d'API</li>
+                            </h4>
+
+                    <p>Exemple avec CURL (MY-KEY-API et MY-SECRET-API sont à remplacer par vos clés d'API :</p>
+
+
+                    <div class="highlight">
+                        <pre><code class="html"><span class="cp"> curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -d 'key_api=MY-KEY-API&secret_api=MY-SECRET-API' http://nomdedomaine/login/generateToken</span></code></pre>
+                    </div>
+                    <br/>
+
+
+                    <p>Le token vous est alors envoyé sur forme de JSON :</p>
+
+                    <div class="highlight">
+                        <pre><code class="html"><span class="cp">{"status": "OK","token": "letokengénéré"}</span></code></pre>
+                    </div>
+                    <br/>
+
+
+                    <h4>
+                        <li>Il suffit maintenant d'envoyer le token dans dans le header de vos requêtes</li>
+                        <br/>
+                    </h4>
+
+                    <p>Le header est à envoyer sous la forme : </p>
+
+
+                    <div class="highlight">
+                        <pre><code class="html"><span
+                                        class="cp"> Authorization : Bearer letokengénéré</span></code></pre>
+                    </div>
+
+                    <p>Exemple avec CURL :</p>
+
+                    <div class="highlight">
+                        <pre><code class="html"><span class="cp"> curl -H 'Authorization : Bearer letokengénéré' http://nomdedomaine/companies/siren/</span></code></pre>
+                    </div>
+                    <br/>
+
+                    </ul>
+                    </p>
+                    </p>
+
+                    <br/>
+
+
+                    <h1>Les méthodes de l'API proposées</h1>
+                    <hr class="intro-divider">
+
+
+                    <h3 id="overview-doctype">
+                        <p>GET /companies/siren/{le numéro de SIREN}</p>
+                    </h3>
+
+
+                    <h3 id="overview-doctype">
+                        <p>GET /companies/siret/{le numéro de SIRET}</p>
+                    </h3>
+
+                    <h3 id="overview-doctype">
+                        <p>GET /companies/name/{le nom de l'entreprise}</p>
+                    </h3>
+
+                    <h3 id="overview-doctype">
+                        <p>GET /companies/name/autocomplete/{le début du nom de l'entreprise}</p>
+                    </h3>
+
+                    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Création d'un nouveau compte</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>
+
+</div>
+<!-- /.container -->
+
+</div>
+
+<% include ./partials/footer %>
+
+</body>
+</html>

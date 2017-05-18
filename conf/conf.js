@@ -6,5 +6,14 @@ module.exports = {
         privateKey: privateKey,
         passphrase: '12345',
         algorithm: 'RS256'
+    },
+    mongo: {
+        database: 'mydb',
+        host: 'localhost',
+        user: '',
+        password: '',
+    },
+    geocoding:{
+        urlApiGouvCSV: 'http://api-adresse.data.gouv.fr/search/csv/'
     }
 }

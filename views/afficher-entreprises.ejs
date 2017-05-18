@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ./partials/head %>
+</head>
+<body>
+<% include ./partials/nave %>
+
+<a name="about"></a>
+<div class="intro-header">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-14">
+
+                <div class="intro-message">
+                    <h1>Résultat de la recherche</h1>
+                    <hr class="intro-divider">
+                </div>
+
+                <% if (companies == '') { %>
+
+                <h3>Aucun résultat trouvé avec cette recherche !</h3>
+
+                <% } else{ %>
+
+                    <table id="table-resultat" class="display" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Adresse</th>
+                            <th>Code Postal</th>
+                            <th>Ville</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <% companies.forEach(function(company) { %>
+
+                        <tr onclick="window.location.href = '/afficher-une-entreprise/<%= company._id %> '" style="cursor:pointer;">
+                            <td> <%= company.L1_NORMALISEE %></td>
+                            <td> <%= company.L4_NORMALISEE %></td>
+                            <td> <%= company.CODPOS %></td>
+                            <td> <%= company.LIBCOM %></td>
+                        </tr>
+                        <% }); %>
+                        </tbody>
+                    </table>
+
+                <% }; %>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ./partials/scripts %>
+<% include ./partials/footer %>
+
+</body>
+</html>

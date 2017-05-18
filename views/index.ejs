@@ -1,11 +1,69 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="en">
+<head>
+    <% include ./partials/head %>
+</head>
+<body>
+<% include ./partials/nave %>
+
+<!-- Header -->
+<div class="intro-header ">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="intro-message">
+                    <h1>Rechercher une entreprise rapidement</h1>
+
+                    <hr class="intro-divider">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-5">
+
+                <form class="form-horizontal" method="POST" name="form" action="/request-api" onsubmit="return validateForm()">
+
+                    <div class="form-group ">
+
+                        <select class="form-control" id="select" name="select" onchange="change_valeur();" required>
+                            <option disabled selected value> --Selectionner d'abord un mode de recherche--</option>
+                            <option value="name">Recherche par nom d'entreprise</option>
+                            <option value="siren">Recherche par numéro de Siren</option>
+                            <option value="siret">Recherche par numéro de Siret</option>
+                        </select>
+                    </div>
+                    <hr class="intro-divider">
+                    <div id="divMessageErreur"></div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="selectionOfUser" name="selectionOfUser" placeholder="Puis taper ici votre recherche" required>
+                    </div>
+
+                    <div class="checkbox" id="divChoixAutocompletion">
+                        <label><input type="checkbox" value="true" name="autocomplete" id="autocomplete">Activer l'autocomplétion</label>
+                    </div>
+
+                    <hr class="intro-divider">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Valider la recherche</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+<!-- /.container -->
+
+</div>
+
+<% include ./partials/scripts %>
+<% include ./partials/footer %>
+
+</body>
 </html>

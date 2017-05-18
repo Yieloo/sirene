@@ -1,8 +1,19 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+
+body{
+    padding-bottom: 20px;
+}
+footer{
+  background-color: #222222;
 }
 
-a {
-  color: #00B7FF;
+.mouseover{
+  cursor:pointer;
+}
+
+#divMessageErreur{
+    color: red;
+}
+#divChoixAutocompletion{
+    display:none;
 }

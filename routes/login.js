@@ -26,9 +26,9 @@ router.post('/createUser', function(req, res, next) {
         else if (user) {
             res.status(409).json({status: 'error', msg: 'Un utilisateur est déjà inscrit avec cette adresse mail'});
         } else {
-            var key_api = genererUneChaineAleatoire(10);
-            var secret_api = genererUneChaineAleatoire(10);
-            User.create({'NOM':req.body.NOM, 'PRENOM':req.body.PRENOM, 'PASSWORD':req.body.PASSWORD, 'MAIL':req.body.MAIL, 'key_api':key_api, 'secret_api':secret_api}, function (err, post) {
+            var key_api = req.body.name+genererUneChaineAleatoire(10);
+            var secret_api = req.body.password;
+            User.create({'NOM':req.body.name, 'PASSWORD':req.body.password, 'MAIL':req.body.mail, 'key_api':key_api, 'secret_api':secret_api}, function (err, post) {
                 if (err) return next(err);
                 res.status(200).json({status: 'OK', key_api: key_api, secret_api: secret_api});
             });
