@@ -10,6 +10,7 @@ var fs = require("fs");
 var csv = require("fast-csv");
 
 
+
 var compteur=0;
 var args = process.argv.slice(2);
 var theFile = args[0];

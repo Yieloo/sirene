@@ -5,7 +5,7 @@ echo "le dossier de destination choisi est : $1"
 echo "*****************************************************************************"
 echo "Debut de la creation des fichiers CSV"
 echo "le dossier de destination choisi est : $1"
-node createCSVFiles.js $1
+node createCSVFilesTest1.js $1
 echo "Fin de la creation des fichiers CSV dans le dossier $1"
 echo "*****************************************************************************"
 
@@ -19,14 +19,18 @@ do
         echo "Debut du geocodage du fichier : $fichier"
         pathfile=$path$fichier
         fichieroutput="$pathfile-geocode.csv"
-        http --timeout 1000 -f POST http://api-adresse.data.gouv.fr/search/csv/ columns='voie' postcode='postcode' citycode='citycode' data@$pathfile --download --output $fichieroutput
+        http --timeout 1000 -f POST http://api-adresse.data.gouv.fr/search/csv/ columns='voie' citycode='citycode' data@$pathfile --download --output $fichieroutput
         echo "Fin de geocodage du fichier : $fichier"
-        echo "Insertion du fichier : $fichier dans la base de donnees"
-        node insertGeocodingInDataBase $fichieroutput
-        echo "Fin d'insertion du fichier : $fichier"
-        echo "Mise en attente du script pendant 10 minutes..."
-        sleep 600
+#        echo "Insertion du fichier : $fichier dans la base de donnees"
+#        node insertGeocodingInDataBase $fichieroutput
+#        echo "Fin d'insertion du fichier : $fichier"
+        echo "Mise en attente du script pendant 1 minute..."
+        sleep 60
 done
 echo "Fin des appels de l'API de geocodage"
 echo "*****************************************************************************"
+
+
+
+
 
