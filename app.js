@@ -19,7 +19,7 @@ var app = express();
 // Chargement de la base MongoDB
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://'+config.mongo.host+'/'+config.mongo.database)
+mongoose.connect('mongodb://'+config.mongo.user+':'+config.mongo.user+'@'+config.mongo.host+'/'+config.mongo.database)
     .then(() =>  console.log('connection succesful'))
 .catch((err) => console.error(err));
 
