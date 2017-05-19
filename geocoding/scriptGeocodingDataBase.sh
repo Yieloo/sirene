@@ -1,11 +1,13 @@
 #Script de geocodage de la base mongodb
-# Parametre 1 : le dossier de destination des fichiers temporaires CSV
+# Agrument 1 : le dossier de destination des fichiers temporaires CSV
+# Argument 2 : le nombre d'adresse a geocoder (pas d'argument signifie un geocodage de toutes les adresses)
 echo "le dossier de destination choisi est : $1"
+echo "le nombre d'adresse a geocoder est de : $2"
 
 echo "*****************************************************************************"
 echo "Debut de la creation des fichiers CSV"
 echo "le dossier de destination choisi est : $1"
-node createCSVFilesTest1.js $1
+node createCSVFilesTest1.js $1 $2
 echo "Fin de la creation des fichiers CSV dans le dossier $1"
 echo "*****************************************************************************"
 
