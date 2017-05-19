@@ -13,7 +13,6 @@ var fs = require("fs");
 
 var args = process.argv.slice(2);
 var thepath = args[0];
-var nombreAdresseAGeocoder = args[1];
 
 
 var compteurModulo=1;
@@ -30,7 +29,7 @@ var count=0;
 var compteurModulo=1;
 
 new Promise(function (resolve, reject) {
-    Company.find(query).limit(nombreAdresseAGeocoder).cursor()
+    Company.find(query).limit(500000).cursor()
         .on('data', function(doc) {
             csvStream.write({id: doc._id, voie: doc.L4_NORMALISEE, citycode: doc.DEPET+doc.COMET});
             count++;
