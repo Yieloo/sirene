@@ -21,9 +21,9 @@ do
         fichieroutput="$pathfile-geocode.csv"
         http --timeout 1000 -f POST http://api-adresse.data.gouv.fr/search/csv/ columns='voie' citycode='citycode' data@$pathfile --download --output $fichieroutput
         echo "Fin de geocodage du fichier : $fichier"
-#        echo "Insertion du fichier : $fichier dans la base de donnees"
-#        node insertGeocodingInDataBase $fichieroutput
-#        echo "Fin d'insertion du fichier : $fichier"
+        echo "Insertion du fichier : $fichier dans la base de donnees"
+        node insertGeocodingInDataBase $fichieroutput
+        echo "Fin d'insertion du fichier : $fichier"
         echo "Mise en attente du script pendant 1 minute..."
         sleep 60
 done
