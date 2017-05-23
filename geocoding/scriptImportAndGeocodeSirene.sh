@@ -20,6 +20,8 @@ do
   7za x geo-sirene_${liste_departement[$i]}.csv.7z
   rm geo-sirene_${liste_departement[$i]}.csv.7z
   #Insertion dans la base de données mongodb
-  ##mongoimport -d mydb -c companies --type csv --file $1/opendata-utf8.csv --fieldFile header/headers.csv --columnsHaveTypes
+  sed -i '1d' geo-sirene_${liste_departement[$i]}.csv
+  #Import dans la base de données MongoDB
+  mongoimport -d sirene-geocode -c companies --type csv --file geo-sirene_${liste_departement[$i]}.csv --fieldFile /home/ubuntu/sirene/import-mongodb/header/headers.csv --columnsHaveTypes
 done
 

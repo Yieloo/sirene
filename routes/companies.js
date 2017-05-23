@@ -24,6 +24,68 @@ router.get('/id/:id', function (req, res, next) {
     });
 });
 
+/* GET /companies/id */
+router.get('/zerf', function (req, res, next) {
+
+    var bulk = Company.collection.initializeOrderedBulkOp();
+    var counter = 0;
+
+    Company.collection.find().forEach(function(doc) {
+        bulk.find({ "_id": doc._id }).updateOne({
+            "$set": {
+                "location": {
+                    "type": "Point",
+                    "coordinates": [ doc.longitude, doc.latitude ]
+                }
+            },
+            "$unset": {  "longitude": 1, "latitude": 1 }
+        });
+
+        counter++;
+        if ( counter % 1000 == 0 ) {
+            bulk.execute();
+            bulk = Company.collection.initializeOrderedBulkOp();
+        }
+
+    })
+
+    if ( counter % 1000 != 0)
+        bulk.execute();
+
+    // var bulk = Company.collection.initializeOrderedBulkOp();
+    // var counter = 0;
+    //
+    // Company.collection.find().forEach(function(doc) {
+    //     bulk.find({ "_id": doc._id }).updateOne({
+    //         "$set": {
+    //             "location": {
+    //                 "type": "Point",
+    //                 "coordinates": [ doc.longitude, doc.latitude ]
+    //             }
+    //         },
+    //         "$unset": {  "longitude": 1, "latitude": 1 }
+    //     });
+    //
+    //     counter++;
+    //     //console.log(counter);
+    //     if ( counter % 1000 == 0 ) {
+    //         bulk.execute();
+    //         bulk = Company.collection.initializeOrderedBulkOp();
+    //     }
+    //
+    // });
+    // if ( counter % 1000 == 0 ) {
+    //     bulk.execute();
+    //     console.log("finis")
+    // }
+
+
+
+
+
+});
+
+
 /* GET /companies/siren/:siren */
 router.get('/siren/:siren', function (req, res, next) {
     Company.find({SIREN: req.params.siren}, function (err, post) {
@@ -82,6 +144,8 @@ router.get('/name/autocomplete/:name', function (req, res, next) {
         res.json(post);
     });
 });
+
+
 
 /* GET /companies/name/autocomplete/:name */
 router.get('/name/autocomplete/:name', function (req, res, next) {
