@@ -19,9 +19,16 @@ var app = express();
 // Chargement de la base MongoDB
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://'+config.mongo.user+':'+config.mongo.password+'@'+config.mongo.host+'/'+config.mongo.database)
-    .then(() =>  console.log('connection succesful'))
+if(config.mongo.user != '' && config.mongo.password != '' ){
+    mongoose.connect('mongodb://'+config.mongo.user+':'+config.mongo.password+'@'+config.mongo.host+'/'+config.mongo.database)
+        .then(() =>  console.log('connection succesful'))
 .catch((err) => console.error(err));
+}
+else{
+    mongoose.connect('mongodb://'+config.mongo.host+'/'+config.mongo.database)
+        .then(() =>  console.log('connection succesful'))
+.catch((err) => console.error(err));
+}
 
 
 // view engine setup

@@ -29,7 +29,7 @@ var count=0;
 var compteurModulo=1;
 
 new Promise(function (resolve, reject) {
-    Company.find(query).limit(500000).cursor()
+    Company.find(query).limit(100).skip(1).cursor()
         .on('data', function(doc) {
             csvStream.write({id: doc._id, voie: doc.L4_NORMALISEE, citycode: doc.DEPET+doc.COMET});
             count++;

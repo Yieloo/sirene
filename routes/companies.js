@@ -97,6 +97,30 @@ router.get('/name/autocomplete/:name', function (req, res, next) {
 });
 
 /* GET /companies/name/autocomplete/:name */
+router.get('/coordinates', function (req, res, next) {
+
+    var latVille = req.query.latitude;
+    var longVille = req.query.longitude;
+
+    console.log(latVille);
+    console.log(longVille);
+
+    Company.find({loc: {
+        $near: {
+            $geometry: {
+                type: "Point" ,
+                coordinates: [longVille, latVille]
+            },
+            $maxDistance: 1000,
+            $minDistance: 0
+        }
+    }}, function (err, post) {
+        if (err) return next(err);
+        res.json(post);
+    });
+});
+
+/* GET /companies/name/autocomplete/:name */
 router.get('/geo', function (req, res, next) {
 
     console.log('lancement de la geolocalisation');
