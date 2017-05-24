@@ -8,6 +8,10 @@ liste_departement=(01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 21 2
 # Obtient la taille du tableau (nombre de départements)
 nombre_departement=${#liste_departement[@]}
 
+#Copies des 2 fichiers dans le repertoire de destination
+cp update-localisation.js $1
+cp add-index-mongo.js $1
+
 #On se deplace dans le repertoire temporaire
 cd $1
 
@@ -25,3 +29,10 @@ do
   mongoimport -d sirene-geocode -c companies --type csv --file geo-sirene_${liste_departement[$i]}.csv --fieldFile /home/ubuntu/sirene/import-mongodb/header/headers.csv --columnsHaveTypes
 done
 
+#Modification de la localisation(latitude/longitude) permettant d'y placer un index 2dshpere
+mongo < update-localisation.js
+
+#Ajout des 3 index dans la base de données Mongo
+mongo < add-index-mongo.js
+
+echo "Script termine"
