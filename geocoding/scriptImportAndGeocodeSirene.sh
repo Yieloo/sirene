@@ -27,7 +27,7 @@ do
   #Insertion dans la base de données mongodb
   sed -i '1d' $1/geo-sirene_${liste_departement[$i]}.csv
   #Import dans la base de données MongoDB
-  mongoimport -d sirene-geocode -c new-companies --type csv --file $1/geo-sirene_${liste_departement[$i]}.csv --fieldFile ./header/header.csv --columnsHaveTypes --ignoreBlanks
+  mongoimport -d sirene -c new-companies --type csv --file $1/geo-sirene_${liste_departement[$i]}.csv --fieldFile ./header/header.csv --columnsHaveTypes --ignoreBlanks
 done
 
 #Modification de la localisation(latitude/longitude) permettant d'y placer un index 2dshpere
