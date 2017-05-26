@@ -93,16 +93,21 @@ router.get('/coordinates', function (req, res, next) {
     console.log(latVille);
     console.log(longVille);
 
-    Company.find({loc: {
-        $near: {
-            $geometry: {
-                type: "Point" ,
-                coordinates: [longVille, latVille]
-            },
-            $maxDistance: 1000,
-            $minDistance: 0
+    var latVille = parseFloat(latVille);
+    var longVille = parseFloat(longVille);
+
+    Company.find({
+        location: {
+            $near: {
+                $geometry: {
+                    type: "Point" ,
+                    coordinates: [longVille,latVille ]
+                },
+                $maxDistance: 1000,
+                $minDistance: 0
+            }
         }
-    }}, function (err, post) {
+    }, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
