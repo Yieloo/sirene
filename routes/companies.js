@@ -84,38 +84,33 @@ router.get('/name/autocomplete/:name', function (req, res, next) {
     });
 });
 
-/* GET /companies/name/autocomplete/:name */
+/* GET /companies/coordinates */
 router.get('/coordinates', function (req, res, next) {
 
     var latVille = parseFloat(req.query.latitude);
     var longVille = parseFloat(req.query.longitude);
-    // console.log(latVille);
-    // console.log(longVille);
-    //
-    // // var employees = req.query.employe;
-    //
-     var query = {};
 
-    query['location'] = { $near: { $geometry: {  type: "Point" , coordinates: [longVille? latVille] }, $maxDistance: 10000,  $minDistance: 0  }  };
+    var employees = req.query.employe;
 
-    // if(employees){
-    //     query['LIBTEFEN'] = employees;
-    // }
+    var query = {};
+
+    query['location'] = {
+        $near: {
+            $geometry: {type: "Point", coordinates: [longVille, latVille]},
+            $maxDistance: 10000,
+            $minDistance: 0
+        }
+    };
+
+    if (employees) {
+        query['LIBTEFEN'] = employees;
+    }
 
     Company.find(query
 
-    // Company.find({location: {
-    //     $near: {
-    //         $geometry: {
-    //             type: "Point" ,
-    //             coordinates: [latVille,longVille ]
-    //         },
-    //         $maxDistance: 80000,
-    //         $minDistance: 0
-    //     }}}
-, function (err, post) {
-        if (err) return next(err);
-        res.json(post);
+        , function (err, post) {
+            if (err) return next(err);
+            res.json(post);
     });
 });
 
