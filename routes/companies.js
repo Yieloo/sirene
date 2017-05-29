@@ -87,31 +87,39 @@ router.get('/name/autocomplete/:name', function (req, res, next) {
 /* GET /companies/coordinates */
 router.get('/coordinates', function (req, res, next) {
 
-    var latVille = parseFloat(req.query.latitude);
-    var longVille = parseFloat(req.query.longitude);
+    var latCenter = parseFloat(req.query.latitude);
+    var longCenter = parseFloat(req.query.longitude);
+    var distance = parseFloat(req.query.distance);
 
     var employees = req.query.employe;
+    var siren = req.query.siren;
+    var naf = req.query.naf;
+    var siege = req.query.siege;
+
+
 
     var query = {};
 
     query['location'] = {
         $near: {
-            $geometry: {type: "Point", coordinates: [longVille, latVille]},
-            $maxDistance: 10000,
+            $geometry: {type: "Point", coordinates: [longCenter, latCenter]},
+            $maxDistance: distance,
             $minDistance: 0
         }
     };
 
-    if (employees) {
-        query['LIBTEFEN'] = employees;
-    }
+    if (siren) query['SIREN'] = siren;
+    if (naf) query['APEN700'] = naf;
+    if (employees) query['LIBTEFEN'] = employees;
+    if (siege) query['SIEGE'] = siege;
+
+    console.log(query);
 
     Company.find(query
-
         , function (err, post) {
             if (err) return next(err);
             res.json(post);
-    });
+    }).limit(1000);
 });
 
 module.exports = router;
