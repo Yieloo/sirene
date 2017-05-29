@@ -87,27 +87,33 @@ router.get('/name/autocomplete/:name', function (req, res, next) {
 /* GET /companies/name/autocomplete/:name */
 router.get('/coordinates', function (req, res, next) {
 
-    var latVille = req.query.latitude;
-    var longVille = req.query.longitude;
+    var latVille = parseFloat(req.query.latitude);
+    var longVille = parseFloat(req.query.longitude);
+    // console.log(latVille);
+    // console.log(longVille);
+    //
+    // // var employees = req.query.employe;
+    //
+     var query = {};
 
-    console.log(latVille);
-    console.log(longVille);
+    query['location'] = { $near: { $geometry: {  type: "Point" , coordinates: [longVille? latVille] }, $maxDistance: 10000,  $minDistance: 0  }  };
 
-    var latVille = parseFloat(latVille);
-    var longVille = parseFloat(longVille);
+    // if(employees){
+    //     query['LIBTEFEN'] = employees;
+    // }
 
-    Company.find({
-        location: {
-            $near: {
-                $geometry: {
-                    type: "Point" ,
-                    coordinates: [longVille,latVille ]
-                },
-                $maxDistance: 1000,
-                $minDistance: 0
-            }
-        }
-    }, function (err, post) {
+    Company.find(query
+
+    // Company.find({location: {
+    //     $near: {
+    //         $geometry: {
+    //             type: "Point" ,
+    //             coordinates: [latVille,longVille ]
+    //         },
+    //         $maxDistance: 80000,
+    //         $minDistance: 0
+    //     }}}
+, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
