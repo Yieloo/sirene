@@ -92,11 +92,11 @@ router.get('/coordinates', function (req, res, next) {
     var distance = parseFloat(req.query.distance);
 
     var employees = req.query.employe;
+    var categorie = req.query.categorie;
+    var origine = req.query.origine;
     var siren = req.query.siren;
     var naf = req.query.naf;
     var siege = req.query.siege;
-
-
 
     var query = {};
 
@@ -108,18 +108,24 @@ router.get('/coordinates', function (req, res, next) {
         }
     };
 
+
     if (siren) query['SIREN'] = siren;
     if (naf) query['APEN700'] = naf;
     if (employees) query['LIBTEFEN'] = employees;
+    if (categorie) query['CATEGORIE'] = categorie;
+    if (origine) query['ORIGINE'] = origine;
     if (siege) query['SIEGE'] = siege;
-
-    console.log(query);
 
     Company.find(query
         , function (err, post) {
             if (err) return next(err);
-            res.json(post);
-    }).limit(1000);
+
+            //if(post.length > 1000) res.json('tooLong');
+            else {
+                console.log('Taille resultat :'+post.length);
+                res.json(post);
+            }
+    }).select({ "location": 1, "L1_NORMALISEE": 1, "L4_NORMALISEE": 1});
 });
 
 module.exports = router;

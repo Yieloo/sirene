@@ -1,9 +1,9 @@
 var bulk = db.getCollection('new-companies').initializeUnorderedBulkOp(),
     counter = 0;
 
-db.getCollection('new-companies').find({latitude: { $exists: true }, longitude: { $exists: true }}).forEach(function (doc) {
+db.getCollection('new-companies').find({latitude: {$exists: true, "$ne":""}, longitude: {$exists: true, "$ne":""}}).forEach(function (doc) {
     bulk.find({ "_id": doc._id }).updateOne({
-        $set:{"location" : {type: "Point", coordinates: [doc.longitude, doc.latitude]}},
+        $set:{"location" : {type: "Point", coordinates: [parseFloat(doc.longitude), parseFloat(doc.latitude)]}},
         $unset:{"latitude":1, "longitude":1}
     });
     counter++;
@@ -17,9 +17,9 @@ db.getCollection('new-companies').find({latitude: { $exists: true }, longitude: 
 // Clean up remaining queue
 if (counter % 1000 !== 0) { bulk.execute(); }
 
-db.getCollection('new-companies').createIndex( { SIREN: 1 } )
-db.getCollection('new-companies').createIndex( { L1_NORMALISEE: 1 } )
-db.getCollection('new-companies').createIndex( { location : "2dsphere" } )
+db.getCollection('new-companies').createIndex( { SIREN: 1 } );
+db.getCollection('new-companies').createIndex( { L1_NORMALISEE: 1 } );
+db.getCollection('new-companies').createIndex( { location : "2dsphere" } );
 
 
-db.getCollection('new-companies').renameCollection("companies",true)
+db.getCollection('new-companies').renameCollection("companies",true);

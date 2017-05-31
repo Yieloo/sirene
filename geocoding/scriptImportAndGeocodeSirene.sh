@@ -1,6 +1,6 @@
 #Script de téléchargement de la base de données SIRENE en version géocodée
 #L'agrument 1 correspond au dossier temporaires où seront stockés les fichiers zip et csv
-#Ex ./scriptImportAndGeocodeSirene.sh /dossier/temporaire
+#Ex ./scriptImportAndGeocodeSirene.sh /dossier
 
 
 #L'option set -e permet de quitter immédiatement le script si une commande echoue
@@ -27,7 +27,9 @@ do
   #Insertion dans la base de données mongodb
   sed -i '1d' $1/geo-sirene_${liste_departement[$i]}.csv
   #Import dans la base de données MongoDB
-  mongoimport -d sirene -c new-companies --type csv --file $1/geo-sirene_${liste_departement[$i]}.csv --fieldFile ./header/header.csv --columnsHaveTypes --ignoreBlanks
+  mongoimport -d sirene -c new-companies --type csv --file $1/geo-sirene_${liste_departement[$i]}.csv --fieldFile ./header/header.csv --columnsHaveTypes
+  #Enfin suppression du fichier pour libérer l'espace
+  rm $1/geo-sirene_${liste_departement[$i]}.csv
 done
 
 #Modification de la localisation(latitude/longitude) permettant d'y placer un index 2dshpere
