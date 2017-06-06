@@ -23,10 +23,11 @@ router.post('/request-api', function (req, res, next) {
 
     var selectionOfUser = req.body.selectionOfUser;
     var select = req.body.select;
-    var autocompleteValue = req.body.autocomplete;
+    var jokervalue = req.body.joker;
+
     var autocomplete =false;
 
-    if(select == 'name' && autocompleteValue == 'true') autocomplete=true;
+    if(select == 'name' && jokervalue == 'true') autocomplete=true;
 
     if(autocomplete) var url = 'http://192.168.35.80:3000/companies/' + select + '/autocomplete/' + selectionOfUser;
     else var url = 'http://192.168.35.80:3000/companies/' + select + '/' + selectionOfUser;

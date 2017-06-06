@@ -29,6 +29,10 @@ $(document).ready(function() {
     if( choice == 1){
         document.getElementById("divChoixAutocompletion").style.display='block';
     }
+
+
+
+
 });
 
 /**
