@@ -8,6 +8,11 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: "API de recherche d'entreprise", active: 'recherche'});
 });
 
+/* GET / : Page d'accueil effectuant une recherche rapide. */
+router.get('/carto', function (req, res, next) {
+    res.render('carto', {title: "API de recherche d'entreprise", active: 'recherche'});
+});
+
 /* GET /use-api : Page de description de l'API */
 router.get('/use-api', function (req, res, next) {
     res.render('api', {title: "Utiliser l'API", active: 'api'});

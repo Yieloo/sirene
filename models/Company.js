@@ -7,6 +7,7 @@ var CompanySchema = new mongoose.Schema({
     L3_NORMALISEE: String,
     L4_NORMALISEE: String,
     L5_NORMALISEE: String,
+    L6_NORMALISEE: String,
     CODPOS: String,
     DEPET: String,
     COMET: String,

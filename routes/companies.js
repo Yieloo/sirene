@@ -7,18 +7,31 @@ var Naf = require('../models/Naf.js');
 
 /* GET /companies/id */
 router.get('/id/:id', function (req, res, next) {
-    Company.findById(req.params.id, function (err, post) {
-        if (err) return next(err);
-        res.json(post);
-    });
+
+    if(mongoose.Types.ObjectId.isValid(req.params.id)){
+        Company.findById(req.params.id, function (err, post) {
+            if (err) return next(err);
+            res.json(post);
+        });
+    }
+    else{
+        res.status(400).json({status: 'error', msg: 'id mal formé (id doit être du type ObjectId'});
+    }
+
 });
 
 /* GET /companies/siren/:siren */
 router.get('/siren/:siren', function (req, res, next) {
-    Company.find({SIREN: req.params.siren}, function (err, post) {
-        if (err) return next(err);
-        res.json(post);
-    });
+    if (req.params.siren.length == 9) {
+        Company.find({SIREN: req.params.siren}, function (err, post) {
+            if (err) return next(err);
+            res.json(post);
+        });
+    }
+    else {
+        res.status(400).json({status: 'error', msg: 'Siren mal formé'});
+    }
+
 });
 
 /* GET /companies/siret/:siret */
@@ -59,34 +72,40 @@ router.get('/name/:name', function (req, res, next) {
     });
 });
 
-/* GET /companies/name/autocomplete/:name */
-router.get('/name/autocomplete/:name', function (req, res, next) {
-
-    var name = req.params.name;
-    name = name.toUpperCase();
-
-    var regexp = new RegExp("^" + name);
-    //var regexTown = new RegExp("RENNES$");
-    //Company.find({ $or: [{L1_NORMALISEE: regexp, L6_NORMALISEE: regexTown }, {L1_NORMALISEE: regexp}] }, function (err, post) {
-
-    Company.find({L1_NORMALISEE: regexp}, function (err, post) {
-        if (err) return next(err);
-        res.json(post);
-    });
-});
 
 /* GET /companies/name/autocomplete/:name */
-router.get('/name/autocomplete/:name', function (req, res, next) {
+router.get('/name-with-autocomplete', function (req, res, next) {
 
-    var name = req.params.name;
-    name = name.toUpperCase();
+    var name = req.query.name;
+    var ville = req.query.ville;
+    var page=req.query.page;
+    var pagesize = 10;
+    var query = {};
 
-    var regexp = new RegExp("^" + name);
-    Company.find({L1_NORMALISEE: regexp}, function (err, post) {
+
+    if(!page){
+        page = 1;
+    }
+    if(name){
+        name = name.toUpperCase();
+        var regexNomEntreprise = new RegExp("^" + name);
+        query['L1_NORMALISEE'] = regexNomEntreprise;
+
+    }
+    if(ville){
+        ville = ville.toUpperCase();
+        var regexVille = new RegExp(ville);
+        query['L6_NORMALISEE'] = regexVille;
+    }
+
+    console.log(query);
+
+    Company.find(query, function (err, post) {
         if (err) return next(err);
         res.json(post);
-    });
+    }).skip(pagesize*(page-1)).limit(pagesize);
 });
+
 
 /* GET /companies/coordinates */
 router.get('/coordinates', function (req, res, next) {
@@ -96,15 +115,14 @@ router.get('/coordinates', function (req, res, next) {
     var distance = parseFloat(req.query.distance);
 
     var employees = req.query.employe;
-    var categorie = req.query.categorie;
-    var origine = req.query.origine;
     var siren = req.query.siren;
     var siret = req.query.siret;
+    var nom = req.query.nom;
     var naf = req.query.naf;
-    var siege = req.query.siege;
 
     var query = {};
 
+    if (nom) query['L1_NORMALISEE'] = nom;
     if (siren) query['SIREN'] = siren;
     if (siret){
         query['SIREN'] = '';
@@ -130,17 +148,21 @@ router.get('/coordinates', function (req, res, next) {
     };
 
 
-
     if (naf){
         var listeNaf = naf.split(',');
         query['APEN700'] = { $in: listeNaf };
     }
-    if (employees) query['TEFEN'] = employees;
-    if (categorie) query['CATEGORIE'] = categorie;
-    if (origine) query['ORIGINE'] = origine;
-    if (siege) query['SIEGE'] = siege;
+    if (employees) {
+        var listeTrancheEmployee = employees.split(',');
+        query['TEFEN'] = { $in: listeTrancheEmployee }
+    }
 
+    console.log('*****');
     console.log(query);
+    console.log('long'+longCenter);
+    console.log('lat'+latCenter);
+    console.log('distance'+distance);
+    console.log('*****');
 
     Company.find(query
         , function (err, post) {
@@ -148,42 +170,26 @@ router.get('/coordinates', function (req, res, next) {
                 console.log(err);
                 return next(err);
             }
-
-            //if(post.length > 1000) res.json('tooLong');
             else {
                 console.log('Taille resultat :'+post.length);
                 res.json(post);
             }
-    }).select({ "location": 1, "L1_NORMALISEE": 1, "L4_NORMALISEE": 1});
+    }).limit(10000).select({ "location": 1, "L1_NORMALISEE": 1, "L4_NORMALISEE": 1, "L6_NORMALISEE": 1, "SIREN": 1, "NIC": 1});
 });
 
-/* GET /companies/name/autocomplete/:name */
+/* GET /companies/listeOfIds */
 router.post('/listeOfIds', function (req, res, next) {
 
-    var list = req.body.test;
+    var list = req.body.listIds;
     list = JSON.parse(list);
 
-    var obj_ids = list.key1.map(function(id) { return mongoose.Types.ObjectId(id); });
+    var obj_ids = list.ids.map(function(id) { return mongoose.Types.ObjectId(id); });
 
     Company.find({_id: {$in: obj_ids}}, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
-
-
-/* GET /companies/name/autocomplete/:name */
-router.get('/codes-naf/autocomplete', function (req, res, next) {
-
-    var libelleNaf = req.query.libelle;
-     var regexp = new RegExp(libelleNaf, 'i');
-
-    Naf.find({ $or: [{CodeNAF: regexp}, {Intitule:regexp }]}, function (err, post) {
-        if (err) return next(err);
-        res.json(post);
-    });
-});
-
 
 
 module.exports = router;

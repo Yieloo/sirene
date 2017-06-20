@@ -11,6 +11,7 @@ var expressJwt = require('express-jwt');
 //Chargement des routes
 var index = require('./routes/index');
 var companies = require('./routes/companies');
+var nafs = require('./routes/nafs');
 var login = require('./routes/login');
 
 //Démarre du framework NodeJS EXPRESS
@@ -31,6 +32,9 @@ else{
 }
 
 
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -45,12 +49,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //Récupération de la clé publique du serveur
-var publicKey = fs.readFileSync('/home/vagrant/.ssh/public_key.pem');
+//var publicKey = fs.readFileSync('/home/vagrant/.ssh/public_key.pem');
 
 
 //Initialisation du path des routes
 app.use('/', index);
 app.use('/login', login);
+app.use('/nafs', nafs);
 
 //Initialisation du path de la route protégée '/companies'
 // En indiquant à expressJWT de vérifier le JWT Token dans le header
@@ -61,12 +66,14 @@ app.use('/login', login);
 //Sans l'authentification JWT
 app.use('/companies', companies);
 
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
