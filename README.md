@@ -45,15 +45,15 @@ Permet d'effectuer une recherche d'entreprise par numéro de SIRET
 Permet d'effectuer une recherche d'entreprise par son nom
 
 #### GET /name-with-autocomplete
-Permet également d'effectuer une recherche d'entreprise par son nom mais avec un traitement d'autocomplete. Le paramètre obligatoire de la requête GET est :
+Permet également d'effectuer une recherche d'entreprise par son nom mais avec des traitements d'autocomplétion. Le paramètre obligatoire de la requête GET est :
 
     name : le nom de l'entreprise
 
-Possibilités de filtrer la recherche via des paramètres GET optionnels :
+Possibilités de filtrer la recherche via un paramètre GET optionnels :
 
-    ville : la ville de l'enreprise
+    ville : la ville de l'entreprise
 
-Cette méthode de l'API est paginée pour des raisons de performance dans des recherches d'autocompletion. C'est-à-dire que les résultats sont limités à 10. Pour accéder aux pages suivantes, il faut utiliser le paramètre GET optionnel :
+Cette méthode de l'API est paginée pour des raisons de performance dans des recherches d'autocomplétion. C'est-à-dire que les résultats sont limités à 10. Pour accéder aux pages suivantes, il faut utiliser le paramètre GET optionnel :
 
     page : la page
     ex : page=1 ou pas de paramètre page affichera les 10 premiers résultats, page=2 affichera les résultats de 10 à 20, pages=3 de 20 à 30 etc...
