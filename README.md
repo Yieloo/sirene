@@ -53,7 +53,8 @@ Possibilités de filtrer la recherche via un paramètre GET optionnels :
 
     ville : la ville de l'entreprise
 
-Cette méthode de l'API est paginée pour des raisons de performance dans des recherches d'autocomplétion. C'est-à-dire que les résultats sont limités à 10. Pour accéder aux pages suivantes, il faut utiliser le paramètre GET optionnel :
+Cette méthode de l'API peut être paginée pour des raisons de performance dans des recherches d'autocomplétion. C'est-à-dire que les résultats sont limités à 10.
+Pour paginer cette méthode, il faut décommenter la ligne indiquée dans le code, et utiliser le paramètre GET optionnel :
 
     page : la page
     ex : page=1 ou pas de paramètre page affichera les 10 premiers résultats, page=2 affichera les résultats de 10 à 20, pages=3 de 20 à 30 etc...
