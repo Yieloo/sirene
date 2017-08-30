@@ -16,4 +16,12 @@ router.get('/codes-naf/autocomplete', function (req, res, next) {
     });
 });
 
+/* GET /nafs/codes-naf/autocomplete */
+router.get('/all-nafs', function (req, res, next) {
+    Naf.find({}, function (err, post) {
+        if (err) return next(err);
+        res.json(post);
+    }).sort( { Intitule: 1 } );
+});
+
 module.exports = router;

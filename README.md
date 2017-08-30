@@ -33,19 +33,19 @@ Sur Ubuntu 16.10
 ## Méthodes de l'API Sirene
    
 #### GET /companies/id/:id
-Permet d'effectuer une recherche d'entreprise par son id
+Recherche d'entreprise par son id
    
 #### GET /companies/siren/:siren
-Permet d'effectuer une recherche d'entreprise par numéro de SIREN
+Recherche d'entreprise par numéro de SIREN
  
 #### GET /companies/siret/:siret
-Permet d'effectuer une recherche d'entreprise par numéro de SIRET
+Recherche d'entreprise par numéro de SIRET
 
 #### GET /companies/name/:name
-Permet d'effectuer une recherche d'entreprise par son nom
+Recherche d'entreprise par son nom
 
 #### GET /name-with-autocomplete
-Permet également d'effectuer une recherche d'entreprise par son nom mais avec des traitements d'autocomplétion. Le paramètre obligatoire de la requête GET est :
+Recherche d'entreprise par son nom mais avec des traitements d'autocomplétion. Le paramètre obligatoire de la requête GET est :
 
     name : le nom de l'entreprise
 
@@ -75,14 +75,14 @@ Possibilités de filtrer la recherche via des paramètres GET optionnels :
     
 
 #### POST /companies/listofsiren
-Permet d'effectuer une recherche d'entreprise par liste de numéro de SIREN
+Recherche d'entreprise par liste de numéro de SIREN
 
 Le paramètre obligatoire de la requête POST est :
 
      siren : une liste de numéro de SIREN sous forme d'array
 
 #### POST /companies/listOfIds
-Permet d'effectuer une recherche d'entreprise par liste de numéro d'Ids
+Recherche d'entreprise par liste de numéro d'Ids
 
 Le paramètre obligatoire de la requête POST est :
 
@@ -93,6 +93,6 @@ Le paramètre obligatoire de la requête POST est :
     
     
 #### GET /nafs/codes-naf/autocomplete
-Permet d'effectuer une recherche sur un libellé de code NAF, ou sur un code NAF. Le paramètre obligatoire de la requête GET est :
+Recherche sur un libellé de code NAF, ou sur un code NAF. Le paramètre obligatoire de la requête GET est :
 
     libelle : le libelle ou le code NAF
