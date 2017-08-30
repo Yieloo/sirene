@@ -16,6 +16,9 @@ nombre_departement=${#liste_departement[@]}
 #Charge le fichier de conf
 source ../conf/conf
 
+#Supprime l'ancienne base temporaire si elle existe
+mongo sirene < drop-old-temporary-mongo-database.js
+
 #Pour chaque département
 for (( i=0; i<${nombre_departement}; i++ ));
 do
@@ -35,6 +38,6 @@ done
 #Modification de la localisation(latitude/longitude) permettant d'y placer un index 2dshpere
 #Ajout des index (sur le numero de Siren, le Nom et la geolocalisation)
 #Renomage de la base et suppression de l'ancienne
-mongo < update-mongo-database.js
+mongo sirene < update-mongo-database.js
 
 echo "Script termine"
