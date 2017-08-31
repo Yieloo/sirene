@@ -4,9 +4,7 @@ API requêtant la base des entreprises Sirene de l'open data
 
 ## Installation
 
-### en ligne de commande
-
-Sur Ubuntu 16.10
+### Sur Ubuntu 16.10
 
     sudo apt update
     sudo apt upgrade
@@ -31,7 +29,7 @@ Sur Ubuntu 16.10
     cd sirene
     npm install
     
-### avec Docker
+### Sur Docker
 
 Le fichier docker-compose.yml est configuré par défaut pour stocker le contenu de la base Mongo sur le host dans
 le réportoire /v/mongo. Changez ce volume si ça ne vous convient pas.
