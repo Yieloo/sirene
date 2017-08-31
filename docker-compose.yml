@@ -1,0 +1,20 @@
+ikmongo:
+  container_name: ikmongo
+  image: mongo
+  volumes:
+    - /v/mongo:/data/db
+  ports:
+    - "27017:27017"
+  restart: always
+
+iksirene:
+  container_name: iksirene
+  environment:
+    - DB_HOST=ikmongo
+    - DB_NAME=sirene
+  image: yieloo/sirene
+  ports:
+    - "8080:3000"
+  links:
+    - ikmongo
+  restart: always

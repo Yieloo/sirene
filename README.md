@@ -1,7 +1,10 @@
 # Base Sirene
+
 API requêtant la base des entreprises Sirene de l'open data
 
 ## Installation
+
+### en ligne de commande
 
 Sur Ubuntu 16.10
 
@@ -21,15 +24,35 @@ Sur Ubuntu 16.10
     sudo apt update
     sudo apt install -y mongodb-org-tools
     
+    # Installation de p7zip
+    sudo apt-get install p7zip-full
     
-     # Installation de p7zip
-     sudo apt-get install p7zip-full
-    
-  
     git clone git@github.com:Yieloo/sirene.git
     cd sirene
     npm install
     
+### avec Docker
+
+Le fichier docker-compose.yml est configuré par défaut pour stocker le contenu de la base Mongo sur le host dans
+le réportoire /v/mongo. Changez ce volume si ça ne vous convient pas.
+
+    docker build -t yieloo/sirene
+    docker-compose up
+
+## Première utilisation
+
+Lancer SIRENE si ce n'est pas déjà fait :
+
+    docker-compose up
+    
+Initialisation de la base NAF :
+
+    docker exec -i iksirene mongorestore --host ikmongo dump-codes-naf
+
+Import de la base SIRENE (changer la date figurant à la fin de l'URL par une plus récente) :
+
+    docker exec -i iksirene bash /usr/src/app/geocoding/scriptImportAndGeocodeSirene.sh http://212.47.238.202/geo_sirene/2017-06
+
 ## Méthodes de l'API Sirene
    
 #### GET /companies/id/:id

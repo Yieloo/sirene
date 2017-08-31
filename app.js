@@ -7,6 +7,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require("fs");
 var expressJwt = require('express-jwt');
+// formattage chaine de caractères
+var printf = require('printf');
 
 //Chargement des routes
 var index = require('./routes/index');
@@ -20,19 +22,13 @@ var app = express();
 // Chargement de la base MongoDB
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-if(config.mongo.user != '' && config.mongo.password != '' ){
-    mongoose.connect('mongodb://'+config.mongo.user+':'+config.mongo.password+'@'+config.mongo.host+'/'+config.mongo.database)
-        .then(() =>  console.log('connection succesful'))
+
+var connectionUri = printf('mongodb://%s:%d/%s',
+    process.env.DB_HOST || 'localhost', process.env.DB_PORT || 27017, process.env.DB_NAME);
+
+mongoose.connect(connectionUri, { useMongoClient: true })
+    .then(() =>  console.log('connection to mongodb succesful'))
 .catch((err) => console.error(err));
-}
-else{
-    mongoose.connect('mongodb://'+config.mongo.host+'/'+config.mongo.database)
-        .then(() =>  console.log('connection succesful'))
-.catch((err) => console.error(err));
-}
-
-
-
 
 
 // view engine setup

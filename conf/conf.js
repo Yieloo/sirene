@@ -12,11 +12,5 @@ module.exports = {
         //privateKey: privateKey,
         passphrase: '12345',
         algorithm: 'RS256'
-    },
-    mongo: {
-        database: 'sirene',
-        host: 'localhost',
-        user: '',
-        password: ''
     }
 };
