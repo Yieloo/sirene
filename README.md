@@ -43,11 +43,18 @@ Lancer SIRENE si ce n'est pas déjà fait :
 
     docker-compose up
     
-Initialisation de la base NAF :
+- Initialisation de la base NAF :
+
+*Cette base de données est statique. En effet les codes nafs français ne sont pas sujets à changer au cours du temps.*
 
     docker exec -i iksirene mongorestore --host ikmongo dump-codes-naf
 
-Import de la base SIRENE (changer la date figurant à la fin de l'URL par une plus récente) :
+- Import de la base SIRENE :
+
+*Cette base de données contient toutes les informations des plus de 10 Millions d'entreprises françaises. Ces données 
+sur les entreprises sont très variables et évoluent constamment de jours en jours. La commande suivante permet à la 
+fois d'installer ou de mettre à jour la base des sociétés. Pour la mise à jour, il suffit de changer la date figurant 
+à la fin de l'URL par une plus récente.*
 
     docker exec -i iksirene bash /usr/src/app/geocoding/scriptImportAndGeocodeSirene.sh http://212.47.238.202/geo_sirene/2017-06
 
