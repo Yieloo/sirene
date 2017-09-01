@@ -39,7 +39,7 @@ Ce projet propose :
 Le fichier docker-compose.yml est configuré par défaut pour stocker le contenu de la base Mongo sur le host dans
 le réportoire /v/mongo. Changez ce volume si ça ne vous convient pas.
 
-    docker build -t yieloo/sirene
+    docker-compose build
     docker-compose up
 
 ## Première utilisation
