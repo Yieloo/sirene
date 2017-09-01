@@ -1,6 +1,11 @@
 # Base Sirene
 
-API requêtant la base des entreprises Sirene de l'open data
+API requêtant la base des entreprises [Sirene de l'open data](https://www.data.gouv.fr/fr/datasets/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/). Ce jeu de données permet d'accéder aux 9 millions d'entreprises et 10 millions d'établissements actifs du répertoire Sirene de l'Insee qui enregistre quotidiennement leur état civil.
+
+Ce projet propose :
+ - un script de téléchargement des données Sirene publiées mensuellement (nous ne gérons pas les diff quotidiens)
+ - une API de requêtage sur cette base de données
+ - une API permettant d'obtenir des codes NAF à partir de leur libellé
 
 ## Installation
 
